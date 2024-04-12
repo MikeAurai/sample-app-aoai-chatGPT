@@ -820,13 +820,7 @@ async def promptflow_request(request):
 
 
 async def send_chat_request(request):
-    logging.debug("Printing the request messages")
-    logging.debug([message for message in request['messages']])
-    try:
-        filtered_messages = [message for message in request['messages'] if message['role'] != 'tool']
-    except:
-        logging.debug("There is an issue regarding the 'role' key")
-        filtered_messages = [message for message in request['messages']]
+    filtered_messages = [message for message in request['messages'] if message.get('role', None) != 'tool']
     request['messages'] = filtered_messages
     model_args = prepare_model_args(request)
 
